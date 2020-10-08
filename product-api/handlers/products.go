@@ -8,10 +8,12 @@ import (
 	"strconv"
 )
 
+// Products handler for getting and updating products.
 type Products struct {
 	l *log.Logger
 }
 
+// NewProducts returns a  new products handler with the given logger.
 func NewProducts(l *log.Logger) *Products {
 	return &Products{l}
 }

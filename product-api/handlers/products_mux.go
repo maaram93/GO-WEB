@@ -1,4 +1,4 @@
-// Pacakge classification of product API
+// Pacakge classification of product API using GorillaMux package.
 //
 // Documentation for product API
 //
@@ -20,9 +20,6 @@ import (
 	"log"
 	"net/http"
 	"product-api/data"
-	"strconv"
-
-	"github.com/gorilla/mux"
 )
 
 type ProductsMux struct {
@@ -31,56 +28,6 @@ type ProductsMux struct {
 
 func NewProductsMux(l *log.Logger) *ProductsMux {
 	return &ProductsMux{l}
-}
-
-// swagger:route GET /products products listProducts
-// Returns a list of products
-// responses:
-//	200: productsResponse
-
-// GetProducts returns the products from data store
-func (p *ProductsMux) GetProducts(rw http.ResponseWriter, r *http.Request) {
-	lp := data.GetProducts()
-	//data, err := json.Marshal(lp) - using json Marshall method
-
-	err := lp.ToJson(rw)
-	if err != nil {
-		http.Error(rw, "unable to Marshal products", http.StatusInternalServerError)
-	}
-	//rw.Write(data) - using json Marshall method
-}
-
-func (p *ProductsMux) AddProduct(rw http.ResponseWriter, r *http.Request) {
-	p.l.Println("Handling POST Product")
-
-	prdt := r.Context().Value(keyProduct{}).(data.Product)
-
-	//p.l.Printf("Product: %#v", prdt)
-	data.AddProduct(&prdt)
-}
-
-func (p *ProductsMux) UpdateProduct(rw http.ResponseWriter, r *http.Request) {
-
-	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"])
-	if err != nil {
-		http.Error(rw, "Unable to convert id", http.StatusBadRequest)
-	}
-	p.l.Println("Handle PUT Product", id)
-
-	prdt := r.Context().Value(keyProduct{}).(data.Product)
-
-	p.l.Printf("Product: %#v", prdt)
-	err = data.UpdateProduct(id, &prdt)
-	if err == data.ErrProductNotFound {
-		http.Error(rw, "Product not found", http.StatusNotFound)
-		return
-	}
-
-	if err != nil {
-		http.Error(rw, "Product not found", http.StatusInternalServerError)
-		return
-	}
 }
 
 type keyProduct struct{}

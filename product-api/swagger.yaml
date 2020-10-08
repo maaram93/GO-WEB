@@ -26,7 +26,7 @@ definitions:
     x-go-package: product-api/data
 info:
   description: Documentation for product API
-  title: Pacakge classification of product API
+  title: Pacakge classification of product API using GorillaMux package.
   version: 1.0.0
 paths:
   /products:
@@ -36,6 +36,22 @@ paths:
       responses:
         "200":
           $ref: '#/responses/productsResponse'
+      tags:
+      - products
+    post:
+      description: Adds a new product to data store
+      operationId: createProduct
+      responses:
+        "200":
+          $ref: '#/responses/productResponse'
+      tags:
+      - products
+    put:
+      description: Updates product details in data store
+      operationId: updateProduct
+      responses:
+        "200":
+          $ref: '#/responses/noContentResponse'
       tags:
       - products
 produces:

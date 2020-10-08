@@ -1,3 +1,4 @@
+// Pacakge classification of product API using standard HTTP package.
 package data
 
 import (

@@ -18,16 +18,9 @@ func main() {
 	l := log.New(os.Stdout, "product-api", log.LstdFlags)
 
 	// create the handlers
-	// hh := handlers.NewHello(l)
-	// gh := handlers.NewGoodBye(l)
-	// ph := handlers.NewProducts(l)
 	phMux := handlers.NewProductsMux(l)
 
 	// create a new serve mux and register the handlers
-	// sm := http.NewServeMux()
-	// sm.Handle("/", hh)
-	// sm.Handle("/goodbye", gh)
-	// sm.Handle("/", ph)
 	sm := mux.NewRouter()
 
 	getRouter := sm.Methods(http.MethodGet).Subrouter()
